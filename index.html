@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Q4 Drill 2</title>
+
+    <style>
+         #deg, h3, summary, #check, i{
+            font-family: 'Gill Sans MT', Courier, monospace;
+            font-weight: bold;
+            color: white;
+         }
+         body{
+            background-image: url('https://i.imgflip.com/4l6pyb.jpg');
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            font-family: 'Gill Sans MT';
+         }
+         .form-control::placeholder{
+            text-align: center;
+            color: rgb(2, 2, 109); 
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .form-control{
+            text-align: center;
+        }
+        i{
+            font-size: 9px;
+        }
+        .heat-table {
+            background: rgba(0,0,0,0.85);
+            border-radius: 1rem;
+            margin-top: 1.2rem;
+            font-size: 0.85rem;
+            width: 100%;
+        }
+        .heat-table th {
+            background-color: #fd7e14;
+            color: #1e1e2f;
+            font-weight: bold;
+            text-align: center;
+            font-family: 'Gill Sans MT', monospace;
+        }
+       .heat-table td {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #ffffff;
+            text-align: center;
+            vertical-align: middle;
+            font-family: 'Gill Sans MT', 'Gill Sans', 'Segoe UI', monospace;
+            font-weight: 500;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.5);
+            transition: background-color 0.2s ease;
+        }
+
+        .heat-table tr:hover td {
+            background-color: rgba(253, 126, 20, 0.5);
+        }
+        .card-custom {
+            background: rgba(0,0,0,0.85);
+            border-radius: 1.8rem;
+            box-shadow: 0 20px 35px rgba(0,0,0,0.4);
+        }
+        .badge-heat {
+            font-size: 0.7rem;
+            background-color: #ff8c00;
+            color: #000;
+        }
+        .table-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+        }
+        @media (max-width: 768px) {
+            .heat-table {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+    
+</head>
+<body>
+    
+    <div class="container w-100 d-flex justify-content-center align-items-center vh-100 py-4">
+        <div class="row bg-dark rounded-5 p-4 card-custom" style="max-width: 1200px; width: 100%;">
+            
+            <div class="col-lg-5 col-md-12 d-flex flex-column justify-content-center">
+                <div class="d-flex align-items-center justify-content-between flex-wrap">
+                    <h3 class="text-warning">How Hot Is It Today?</h3>
+                    <span class="badge-heat badge rounded-pill px-2 py-1">Heat Index</span>
+                </div>
+                <details ontoggle="instruct()" class="mt-1">
+                    <summary class="text-white-50">Note</summary>
+                    <i id="note" class="text-info-emphasis"></i>
+                </details>
+                <br>
+
+                <form onsubmit="return false;">
+                    <label id="deg" class="m-2">Degree in °C</label>
+                    <input type="number" class="form-control mb-3" id="temp" placeholder="e.g., 32" step="any">
+
+                    <label id="deg" class="m-2">Humidity in %</label>
+                    <input type="number" class="form-control mb-3" id="humid" placeholder="e.g., 65" step="any">
+                
+                    <button type="button" id="check" class="btn btn-warning w-100 fw-bold" onclick="HeatIndex()">Check Heat Index</button>
+                    <br><br>
+                    <p><span id="message1" style="color: #ffaa66; font-weight: 500;" class="fst-italic"></span></p>
+                </form>
+
+                <div class="d-flex justify-content-center mt-2">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/Bureau_of_Fire_Protection.png" alt="heat icon" style="width: 110px; height: 110px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.5));" class="mx-auto d-block">  
+                </div>
+            </div>
+
+            <div class="col-lg-7 col-md-12 mt-4 mt-lg-0 d-flex flex-column align-items-center justify-content-center">
+                <div class="table-wrapper w-100">
+                    <div class="heat-table" style="width: 100%; max-width: 650px;">
+                        <table class="table table-bordered border-warning mb-0" style="width: 100%;">
+                            <thead>
+                                <tr>
+                                    <th>Temperature (°C)</th>
+                                    <th>Humidity (%)</th>
+                                    <th>Heat Index Range (°C)</th>
+                                    <th>Status / Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>20 – 24</td>
+                                    <td>30 – 50</td>
+                                    <td>≤ 27</td>
+                                    <td>Comfortable / Cool. Perfect weather.</td>
+                                </tr>
+                                <tr>
+                                    <td>25 – 27</td>
+                                    <td>40 – 60</td>
+                                    <td>28 – 32</td>
+                                    <td>Warm. Feels like opening your microwave.</td>
+                                </tr>
+                                <tr>
+                                    <td>28 – 31</td>
+                                    <td>50 – 70</td>
+                                    <td>33 – 37</td>
+                                    <td>Hot. Recommended to hydrate and wear easy clothes. Heat-sensitive individuals are advised to be cautious.</td>
+                                </tr>
+                                <tr>
+                                    <td>32 – 35</td>
+                                    <td>60 – 80</td>
+                                    <td>38 – 41</td>
+                                    <td>Very Hot / Caution. Can cause exhaustion and dehydration, heat-sensitive individuals are greatly affected. </td>
+                                </tr>
+                                <tr>
+                                    <td>36+</td>
+                                    <td>70 – 100</td>
+                                    <td>≥ 42</td>
+                                    <td>Extreme Heat / Danger. Can significantly increase chances of heat stroke, severe exhaustion and dehydration, and lack of body temperature regulation. Advised to stay cool indoors.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="text-center mt-2">
+                    <small class="text-white-50" style="font-size: 0.7rem;">Not affiliated with the Bureau of Fire Protection or any government agency. For educational purposes only.</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function HeatIndex() {
+            let temp = parseFloat(document.getElementById("temp").value);
+            let humidity = parseFloat(document.getElementById("humid").value);
+            let messageSpan = document.getElementById("message1");
+            
+            messageSpan.innerHTML = "";
+            
+            if (isNaN(temp) || isNaN(humidity)) {
+                messageSpan.innerHTML = "Please enter valid numeric values for temperature (°C) and humidity (%)";
+                return;
+            }
+            
+            if (temp < -20 || temp > 60) {
+                messageSpan.innerHTML = "Temperature is not possible. Please adjust. (-20°C to 60°C)";
+                return;
+            }
+            
+            if (humidity < 0 || humidity > 100) {
+                messageSpan.innerHTML = "Humidity must be between 0% and 100%.";
+                return;
+            }
+            
+            let HI = temp + (0.33 * humidity) - 4;
+            let status = "";
+            
+            if (HI <= 27) {
+                status = "Comfortable / Cool. Enjoy your day!";
+            } 
+            else if (HI <= 32) {
+                status = "Warm. Expect heat-tingling sensations throughout the day";
+            }
+            else if (HI <= 37) {
+                status = "Hot. Hydrate and cool down well. ";
+            }
+            else if (HI <= 41) {
+                status = "Very Hot / Caution. Possible to experience heat-related illnesses, such as stroke. Hydrate and regulate your temperature properly.";
+            }
+            else {
+                status = "Extreme Heat / Danger. You should probably go to Baguio.";
+            }
+            
+            alert('Heat Index: ' + HI.toFixed(1) + '°C' + '\n' + 'Status: ' + status);
+            
+            messageSpan.innerHTML = `Heat Index = ${HI.toFixed(1)}°C → ${status}`;
+        }
+
+        function instruct(){
+            document.getElementById("note").innerHTML = "Input the current air temperature (°C) and relative humidity (%). Press 'Check Heat Index' to compute the 'feels-like' temperature. The reference table on the right shows standard heat index categories.";
+        }
+        
+        window.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("note").innerHTML = "Input the temperature (°C) and humidity (%), then click Check to see the heat index and its status.";
+        });
+    </script>
+    
+</body>
+</html>
